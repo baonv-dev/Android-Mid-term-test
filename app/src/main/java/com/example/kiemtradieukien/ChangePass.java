@@ -138,6 +138,8 @@ public class ChangePass extends AppCompatActivity {
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
                 JSONObject jsonParam = new JSONObject();
+                Toast.makeText(ChangePass.this, "old"+old_pass, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChangePass.this, "new"+txtNewPass.getText().toString(), Toast.LENGTH_SHORT).show();
                 jsonParam.put("old_pass", old_pass);
                 jsonParam.put("new_pass", txtNewPass.getText().toString());
                 DataOutputStream os = new DataOutputStream(conn.getOutputStream());
