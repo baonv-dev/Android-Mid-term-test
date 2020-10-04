@@ -1,4 +1,4 @@
 # Android-Mid-term-test
-![alt text](https://github.com/baonv-dev/Android-Mid-term-test/blob/master/bai1.jpg?raw=true)
-![alt text](https://github.com/baonv-dev/Android-Mid-term-test/blob/master/bai2.jpg?raw=true)
+![Bài 1](https://github.com/baonv-dev/Android-Mid-term-test/blob/master/Bai1.jpg?raw=true)
+![Bài 2](https://github.com/baonv-dev/Android-Mid-term-test/blob/master/Bai2.jpg?raw=true)
 
