@@ -125,7 +125,7 @@ public class ForgetPassword extends AppCompatActivity {
             InputStream in = null;
             BufferedReader br= null;
             try {
-                
+
                 URL url = new URL(urlForgetPass);
                 HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
                 httpConn.setAllowUserInteraction(false);

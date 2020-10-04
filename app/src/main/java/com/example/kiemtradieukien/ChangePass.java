@@ -20,9 +20,11 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -50,7 +52,7 @@ public class ChangePass extends AppCompatActivity {
                 {
                     String urlChangePass = "https://www.miai.vn/sample/updatepass.php";
                     ChangePassPost task =  new ChangePassPost(txtNewPass, txtResult);
-                    task.onPostExecute(urlChangePass);
+                    task.execute(urlChangePass);
                 }
                 else
                 {
@@ -126,47 +128,48 @@ public class ChangePass extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
             String urlChangePass = strings[0];
-            String data = null;
-            InputStream in = null;
-            BufferedReader br = null;
+            String result = "";
             try {
                 URL url = new URL(urlChangePass);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-                conn.setRequestProperty("Accept","application/json");
+                conn.setRequestProperty("Accept", "application/json");
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
                 JSONObject jsonParam = new JSONObject();
-                Toast.makeText(ChangePass.this, "old"+old_pass, Toast.LENGTH_SHORT).show();
-                Toast.makeText(ChangePass.this, "new"+txtNewPass.getText().toString(), Toast.LENGTH_SHORT).show();
                 jsonParam.put("old_pass", old_pass);
                 jsonParam.put("new_pass", txtNewPass.getText().toString());
                 DataOutputStream os = new DataOutputStream(conn.getOutputStream());
                 os.writeBytes(jsonParam.toString());
+                Log.e("bao199",jsonParam.toString());
                 os.flush();
                 os.close();
+
+                int code = conn.getResponseCode();
+                if(code==200){
+                    InputStream in = new BufferedInputStream(conn.getInputStream());
+                    if (in != null) {
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+                        String line = "";
+                        while ((line = bufferedReader.readLine()) != null)
+                            result += line;
+                    }
+                    in.close();
+                }
+
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
-            finally
-            {
-                try
-                {
-                    in.close();
-                }
-                catch (Exception e)
-                {
 
-                }
-            }
-            return data;
+            return result;
         }
 
         @Override
         protected void onPostExecute(String result) {
+            Log.e("phuc",result);
             if (result != null) {
                 try {
                     JSONObject json = new JSONObject(result);    // create JSON obj from string
